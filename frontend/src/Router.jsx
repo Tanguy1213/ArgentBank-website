@@ -6,6 +6,7 @@ import './main.scss'
 //Pages
 import Home from "./pages/Home/Home"
 import SignIn from "./pages/Sign-in/Sign";
+import User from "./pages/User/User";
 
 const Router = () => {
   return (
@@ -13,6 +14,7 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/sign-in" element={<SignIn />}/>
+        <Route path="/user" element={<User/>}/>
       </Routes>
     </BrowserRouter>
   );
