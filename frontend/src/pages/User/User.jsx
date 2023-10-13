@@ -11,7 +11,6 @@ function User() {
   const navigate = useNavigate();
   const localToken = localStorage.getItem("authToken");
   const dispatch = useDispatch();
-  console.log(localToken);
 
   useEffect(() => {
     if (localToken) {
@@ -26,9 +25,9 @@ function User() {
   return (
     <div>
       <Header />
-      <main className="main bg-dark">
+      <main className="main bg-dark user-container">
         <div className="header">
-          <h1>
+          <h1 className="title-user-page">
             Welcome back
             <br />
             Tony Jarvis!

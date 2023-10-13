@@ -46,7 +46,7 @@ function Sign() {
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>
           <h1>Sign In</h1>
-          <form onSubmit={handleLogin}>
+          <form onSubmit={handleLogin} >
             <div className="input-wrapper">
               <label htmlFor="email">E-mail</label>
               <input
@@ -56,6 +56,8 @@ function Sign() {
                 onChange={(e) =>
                   setCredentials({ ...credentials, email: e.target.value })
                 }
+                autoComplete="on"
+                required
               />
             </div>
             <div className="input-wrapper">
@@ -67,6 +69,8 @@ function Sign() {
                 onChange={(e) =>
                   setCredentials({ ...credentials, password: e.target.value })
                 }
+                autoComplete="off"
+                required
               />
             </div>
             <div className="input-remember">
