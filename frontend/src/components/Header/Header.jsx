@@ -2,7 +2,7 @@ import React  from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import argentBankLogo from "../../assets/img/argentBankLogo.png";
-import { logoutUser } from "../../actions/auth.action"; // Importez votre action de déconnexion
+import { logoutUser } from "../../store/actions/auth.action"; // Importez votre action de déconnexion
 import "./Header.scss";
 
 function Header() {
@@ -13,12 +13,10 @@ function Header() {
     dispatch(logoutUser());
   };
 
-
-
   return (
     <header>
       <nav className="main-nav">
-        <NavLink className="main-nav-logo" to="/">
+        <NavLink className="main-nav-logo" to="/" onClick={handleSignOut}>
           <img
             className="main-nav-logo-image"
             src={argentBankLogo}

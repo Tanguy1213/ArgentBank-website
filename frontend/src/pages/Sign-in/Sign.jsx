@@ -2,7 +2,7 @@ import Header from "../../components/Header/Header";
 import "./Sign.scss";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../actions/auth.action"; // action loginUser
+import { loginUser, setRememberMe } from "../../store/actions/auth.action"; // action loginUser
 import { useNavigate } from "react-router-dom";
 
 function Sign() {
@@ -13,20 +13,32 @@ function Sign() {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
-  }); 
+    rememberMe: false,
+  });
 
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(loginUser(credentials));
   };
 
+  const handleRememberMeChange = (e) => {
+    const { checked } = e.target;
+    setCredentials({ ...credentials, rememberMe: checked });
+    dispatch(setRememberMe(checked));
+  };
+  
   useEffect(() => {
     if (auth.token) {
-      localStorage.setItem("authToken", auth.token)
       navigate("/user");
     }
   }, [auth.token, navigate]);
- 
+
+  useEffect(() => {
+    if (auth.token && credentials.rememberMe) {
+      localStorage.setItem("authToken", auth.token); // Stockez le token dans le local storage si "Remember Me" est cochée
+    }
+  }, [auth.token, credentials.rememberMe]);
+
   return (
     <div>
       <Header />
@@ -58,7 +70,12 @@ function Sign() {
               />
             </div>
             <div className="input-remember">
-              <input type="checkbox" id="remember-me" />
+              <input
+                type="checkbox"
+                id="remember-me"
+                checked={credentials.rememberMe} // Liez la case à cocher à l'état de rememberMe
+                onChange={handleRememberMeChange}
+              />
               <label htmlFor="remember-me">Remember me</label>
             </div>
             <button className="sign-in-button" type="submit">

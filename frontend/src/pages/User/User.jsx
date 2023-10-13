@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import './User.scss'
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginSuccess } from "../../store/actions/auth.action";
 
 function User() {
+  const auth = useSelector((state) => state.authReducer);
+  const navigate = useNavigate();
+  const localToken = localStorage.getItem("authToken");
+  const dispatch = useDispatch();
+  console.log(localToken);
+
+  useEffect(() => {
+    if (localToken) {
+      dispatch(loginSuccess(localToken));
+    }
+  
+    if (!auth.token && !localToken) {
+      navigate("/");
+    }
+  }, [auth.token, navigate, dispatch]);
+
   return (
     <div>
       <Header />

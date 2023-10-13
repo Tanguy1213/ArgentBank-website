@@ -5,13 +5,15 @@ import App from "./App";
 // REDUX
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import rootReducer from "./reducers";
+import rootReducer from "./store/reducers";
+
 
 
 const store = configureStore({
 reducer: rootReducer,
 devTools: true, //Set False for production!
 })
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
