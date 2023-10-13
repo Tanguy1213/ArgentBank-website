@@ -1,4 +1,6 @@
 import axios from "axios";
+import { API_BASE_URL, LOGIN_ENDPOINT } from '../apiConfig';
+import { resetProfile } from "./getProfile.action";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -25,10 +27,10 @@ export const loginUser = (credentials) => {
   return (dispatch) => {
     dispatch(loginRequest());
     axios
-      .post("http://localhost:3001/api/v1/user/login", credentials)
+      .post(`${API_BASE_URL}${LOGIN_ENDPOINT}`, credentials)
       .then((response) => {
-        const token = response.data.body.token; // Extrayez le token de la réponse
-        dispatch(loginSuccess(token));
+        const token = response.data.body.token; 
+        dispatch(loginSuccess(token));  
       })
       .catch((error) => {
         dispatch(loginFailure(error));
@@ -38,6 +40,7 @@ export const loginUser = (credentials) => {
 
 export const logoutUser = () => {
   return (dispatch) => {
+    dispatch(resetProfile());
     // Supprimez le token du local storage
     localStorage.removeItem("authToken");
     // Déconnectez l'utilisateur en effaçant le token du Redux

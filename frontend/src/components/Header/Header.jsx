@@ -25,7 +25,7 @@ function Header() {
         </NavLink>
         <div>
         {auth.token ? ( // Affiche le bouton "Sign Out" uniquement si l'utilisateur est connecté
-            <NavLink className="main-nav-item" onClick={handleSignOut} to="/sign-in">
+            <NavLink className="main-nav-item" onClick={handleSignOut} to="/">
               <i className="fa fa-user-circle"></i>{" "}
               {"Sign Out"}
             </NavLink>  

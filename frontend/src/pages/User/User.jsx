@@ -5,22 +5,30 @@ import './User.scss'
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginSuccess } from "../../store/actions/auth.action";
+import { getProfile } from "../../store/actions/getProfile.action";
 
 function User() {
   const auth = useSelector((state) => state.authReducer);
   const navigate = useNavigate();
-  const localToken = localStorage.getItem("authToken");
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const localToken = localStorage.getItem("authToken");
+    
+    if (!auth.token && !localToken) {
+      navigate("/");
+      return;
+    }
+  
+    if (!auth.profile && auth.token) {
+      dispatch(getProfile(auth.token));
+    }
+  
     if (localToken) {
       dispatch(loginSuccess(localToken));
     }
-  
-    if (!auth.token && !localToken) {
-      navigate("/");
-    }
-  }, [auth.token, navigate, dispatch]);
+  }, [auth.token, auth.profile, navigate, dispatch]);
+
 
   return (
     <div>

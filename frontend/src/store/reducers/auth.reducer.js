@@ -20,7 +20,7 @@ export default function authReducer(state = initialState, action) {
       return { ...state, loading: false, token: action.payload, error: null };
     case LOGIN_FAILURE:
       return { ...state, loading: false, token: null, error: action.payload };
-    case SET_REMEMBER_ME: // Ajoutez ce cas
+    case SET_REMEMBER_ME:
       return { ...state, rememberMe: action.payload };
     default:
       return state;
