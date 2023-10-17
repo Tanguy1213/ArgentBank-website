@@ -1,14 +1,26 @@
 import React, { useEffect } from "react";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import './User.scss'
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../../store/actions/auth.action";
 import { getProfile } from "../../store/actions/getProfile.action";
+import { startEditing } from "../../store/actions/editProfile.action";
+
+//COMPONENTS
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import Account from "../../components/Account/Account";
+import EditForm from "../../components/EditForm/EditForm";
+
+//STYLE
+import './User.scss'
 
 function User() {
   const auth = useSelector((state) => state.authReducer);
+  const userProfile = useSelector((state) => state.getProfileReducer)
+  const isEditing = useSelector((state) => state.editProfileReducer.isEditing);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -29,50 +41,35 @@ function User() {
     }
   }, [auth.token, auth.profile, navigate, dispatch]);
 
+  const handleEditClick = () => {
+    dispatch(startEditing());
+  };
+
 
   return (
     <div>
       <Header />
       <main className="main bg-dark user-container">
-        <div className="header">
-          <h1 className="title-user-page">
-            Welcome back
+      {isEditing ? (
+          // Affichez le formulaire d'édition
+          <EditForm />
+        ) : (
+          <div className="header">
+            <h1 className="title-user-page">
+              Welcome back
+              <br />
+              {userProfile.firstName} {userProfile.lastName}
+            </h1>
             <br />
-            Tony Jarvis!
-          </h1>
-          <button className="edit-button">Edit Name</button>
-        </div>
+            <button className="edit-button" onClick={handleEditClick}>
+              Edit Name
+            </button>
+          </div>
+        )}
         <h2 className="sr-only">Accounts</h2>
-        <section className="account">
-          <div className="account-content-wrapper">
-            <h3 className="account-title">Argent Bank Checking (x8349)</h3>
-            <p className="account-amount">$2,082.79</p>
-            <p className="account-amount-description">Available Balance</p>
-          </div>
-          <div className="account-content-wrapper cta">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </section>
-        <section className="account">
-          <div className="account-content-wrapper">
-            <h3 className="account-title">Argent Bank Savings (x6712)</h3>
-            <p className="account-amount">$10,928.42</p>
-            <p className="account-amount-description">Available Balance</p>
-          </div>
-          <div className="account-content-wrapper cta">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </section>
-        <section className="account">
-          <div className="account-content-wrapper">
-            <h3 className="account-title">Argent Bank Credit Card (x8349)</h3>
-            <p className="account-amount">$184.30</p>
-            <p className="account-amount-description">Current Balance</p>
-          </div>
-          <div className="account-content-wrapper cta">
-            <button className="transaction-button">View transactions</button>
-          </div>
-        </section>
+        <Account accountTitle="Checking (x8349)" accountAmount="2,082.79" accountDesc="Available Balance"/>
+        <Account accountTitle="Savings (x6712)" accountAmount="10,928.42" accountDesc="Available Balance" />
+        <Account accountTitle="Credit Card (x8349)" accountAmount="184.30" accountDesc="Current Balance"/>
       </main>
       <Footer />
     </div>

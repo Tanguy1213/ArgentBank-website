@@ -45,6 +45,6 @@ export const logoutUser = () => {
     localStorage.removeItem("authToken");
     // Déconnectez l'utilisateur en effaçant le token du Redux
     dispatch(loginSuccess(null)); // Mettez à jour votre action de connexion avec null
-    dispatch(setRememberMe(false));// Mettez à jour l'état du rememberMe
+    dispatch(setRememberMe(false)); // Mettez à jour l'état du rememberMe
   };
 };

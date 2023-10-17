@@ -85,7 +85,7 @@ function Sign() {
           </form>
 
           {auth.loading && <p>Logging in...</p>}
-          {auth.error && <p>Error: {"E-mail or password incorrect"}</p>}
+          {auth.error && <p className="error-message-style">Error: {"E-mail or password incorrect"}</p>}
         </section>
       </main>
     </div>
