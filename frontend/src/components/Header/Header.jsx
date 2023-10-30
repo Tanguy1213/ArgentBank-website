@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import argentBankLogo from "../../assets/img/argentBankLogo.png";
+import argentBankLogo from "../../assets/img/argentBankLogo.webp";
 import { logoutUser } from "../../store/actions/auth.action"; // Importez votre action de déconnexion
 import { stopEditing } from "../../store/actions/editProfile.action";
 import "./Header.scss";

@@ -44,7 +44,7 @@ function EditForm() {
           <input type="text" placeholder={userProfile.firstName} disabled />
         </label>
         <label>
-        <span>last Name :&nbsp;</span>
+        <span>Last Name :&nbsp;</span>
           <input type="text" placeholder={userProfile.lastName} disabled />
         </label>
         <div className="form-button-container">

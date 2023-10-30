@@ -29,12 +29,12 @@ function Sign() {
   
   useEffect(() => {
     if (auth.token) {
+      if (credentials.rememberMe) {
+        localStorage.setItem("authToken", auth.token);
+      }
       navigate("/user");
     }
-    if (auth.token && credentials.rememberMe) {
-      localStorage.setItem("authToken", auth.token); // Stockez le token dans le local storage si "Remember Me" est cochée
-    }
-  }, [auth.token,navigate, credentials.rememberMe]);
+  }, [auth.token, navigate, credentials.rememberMe]);
 
   return (
     <div>

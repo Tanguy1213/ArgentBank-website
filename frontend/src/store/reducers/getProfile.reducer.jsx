@@ -15,13 +15,14 @@ const initialState = {
 export default function getProfileReducer(state = initialState, action) {
   switch (action.type) {
     case GET_PROFILE_SUCCESS:
+      const { userName, firstName, lastName, email, error } = action.payload;
       return {
         ...state,
-        userName: action.payload.userName,
-        firstName: action.payload.firstName,
-        lastName: action.payload.lastName,
-        email: action.payload.email,
-        error: action.error,
+        userName,
+        firstName,
+        lastName,
+        email,
+        error,
       };
     case GET_PROFILE_FAILURE:
       return {

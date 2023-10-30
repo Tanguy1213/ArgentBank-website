@@ -31,6 +31,11 @@ export const loginUser = (credentials) => {
       .then((response) => {
         const token = response.data.body.token; 
         dispatch(loginSuccess(token));  
+        if (credentials.rememberMe) {
+          localStorage.setItem("rememberMe", "true");
+        } else {
+          localStorage.removeItem("rememberMe");
+        }
       })
       .catch((error) => {
         dispatch(loginFailure(error));
