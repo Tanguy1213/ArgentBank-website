@@ -2,7 +2,7 @@ import Header from "../../components/Header/Header";
 import "./Sign.scss";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser, setRememberMe } from "../../store/actions/auth.action"; // action loginUser
+import { loginUser, setRememberMe } from "../../store/actions/auth.action";
 import { useNavigate } from "react-router-dom";
 
 function Sign() {
@@ -18,7 +18,7 @@ function Sign() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(loginUser(credentials));
+    dispatch(loginUser(credentials, credentials.rememberMe));
   };
 
   const handleRememberMeChange = (e) => {
@@ -26,15 +26,12 @@ function Sign() {
     setCredentials({ ...credentials, rememberMe: checked });
     dispatch(setRememberMe(checked));
   };
-  
+
   useEffect(() => {
     if (auth.token) {
-      if (credentials.rememberMe) {
-        localStorage.setItem("authToken", auth.token);
-      }
       navigate("/user");
     }
-  }, [auth.token, navigate, credentials.rememberMe]);
+  }, [auth.token, navigate]);
 
   return (
     <div>
@@ -43,7 +40,7 @@ function Sign() {
         <section className="sign-in-content">
           <i className="fa fa-user-circle sign-in-icon"></i>
           <h1>Sign In</h1>
-          <form onSubmit={handleLogin} >
+          <form onSubmit={handleLogin}>
             <div className="input-wrapper">
               <label htmlFor="email">E-mail</label>
               <input
@@ -74,7 +71,7 @@ function Sign() {
               <input
                 type="checkbox"
                 id="remember-me"
-                checked={credentials.rememberMe} // Liez la case à cocher à l'état de rememberMe
+                checked={credentials.rememberMe}
                 onChange={handleRememberMeChange}
               />
               <label htmlFor="remember-me">Remember me</label>
@@ -85,7 +82,11 @@ function Sign() {
           </form>
 
           {auth.loading && <p>Logging in...</p>}
-          {auth.error && <p className="error-message-style">Error: {"E-mail or password incorrect"}</p>}
+          {auth.error && (
+            <p className="error-message-style">
+              Error: {"E-mail or password incorrect"}
+            </p>
+          )}
         </section>
       </main>
     </div>

@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { loginSuccess, setRememberMe } from "../../store/actions/auth.action";
-import { getProfile } from "../../store/actions/getProfile.action";
 import { startEditing } from "../../store/actions/editProfile.action";
 
 //COMPONENTS
@@ -17,38 +14,12 @@ import EditForm from "../../components/EditForm/EditForm";
 import "./User.scss";
 
 function User() {
-  const auth = useSelector((state) => state.authReducer);
   const userProfile = useSelector((state) => state.getProfileReducer);
   const isEditing = useSelector((state) => state.editProfileReducer.isEditing);
-
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    const localToken = localStorage.getItem("authToken");
-    const rememberMe = localStorage.getItem("rememberMe") === "true";
-
-    if (rememberMe) {
-      dispatch(setRememberMe(true));
-    }
-    if (!auth.token && !localToken) {
-      navigate("/");
-      return;
-    }
-
-    if (!auth.profile && auth.token) {
-      dispatch(getProfile(auth.token));
-    }
-
-    if (localToken) {
-      dispatch(loginSuccess(localToken));
-    }
-  }, [auth.token, auth.profile, navigate, dispatch]);
-
   const handleEditClick = () => {
     dispatch(startEditing());
   };
-
   return (
     <div>
       <Header />

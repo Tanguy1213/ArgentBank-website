@@ -5,8 +5,11 @@ import {
   SET_REMEMBER_ME,
 } from "../actions/auth.action";
 
+const tokenFromLocalStorage = localStorage.getItem("authToken");
+const tokenFromSessionStorage = sessionStorage.getItem("authToken");
+
 const initialState = {
-  token: null,
+  token: tokenFromLocalStorage || tokenFromSessionStorage || null, // Récupérez le token depuis le local storage ou le session storage
   loading: false,
   error: null,
   rememberMe: false,

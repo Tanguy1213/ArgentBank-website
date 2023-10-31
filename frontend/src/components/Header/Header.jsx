@@ -1,20 +1,37 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import React,{ useEffect }from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import argentBankLogo from "../../assets/img/argentBankLogo.webp";
-import { logoutUser } from "../../store/actions/auth.action"; // Importez votre action de déconnexion
-import { stopEditing } from "../../store/actions/editProfile.action";
 import "./Header.scss";
+
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser, loginSuccess } from "../../store/actions/auth.action";
+import { getProfile } from "../../store/actions/getProfile.action";
+import { stopEditing } from "../../store/actions/editProfile.action";
 
 function Header() {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.authReducer);
   const userProfile = useSelector((state) => state.getProfileReducer);
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
     dispatch(logoutUser());
     dispatch(stopEditing());
   };
+
+  useEffect(() => {
+    const localToken = localStorage.getItem("authToken");
+
+    if (!auth.token && localToken) {
+      // Restauration du token depuis le local storage dans le Redux Store
+      dispatch(loginSuccess(localToken));
+    }
+
+    if (!auth.profile && auth.token) {
+      dispatch(getProfile(auth.token));
+    }
+  }, [auth.token, auth.profile, navigate, dispatch]);
 
   return (
     <header>
